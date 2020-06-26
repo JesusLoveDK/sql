@@ -309,3 +309,99 @@ WHERE deptno != 10
 SELECT *
 FROM emp
 WHERE deptno IN(20,30) AND hiredate > TO_DATE('1981/06/01', 'YYYY/MM/DD');
+
+SELECT *
+FROM emp
+WHERE job = 'SALESMAN'
+   OR hiredate > TO_DATE('1981/06/01', 'YYYY/MM/DD');
+   
+SELECT *
+FROM emp
+WHERE job = 'SALESMAN'
+   OR empno LIKE '78%';
+   
+emp 테이블에서 job이 SALESMAN이거나 사원번호(empno)가 78로 사용하는 직원의 정보 조회
+SELECT *
+FROM emp
+WHERE job = 'SALESMAN'
+   OR empno LIKE '78%'; --형변환, (명시적 / 묵시적)
+   
+mgr 사번이 7698이 아니고, 7839가아니고, NULL이 아닌 직원들을 조회
+SELECT *
+FROM emp
+WHERE mgr NOT IN (7698, 7839, NULL);
+
+mgr가 (7698, 7839, NULL)에 포함된다.
+mgr IN (7698, 7839, NULL); == mgr = 7698 OR mgr = 7839 OR mgr = NULL
+mgr NOT IN (7698, 7839, NULL); ==> mgr != 7698 AND mgr != 7839 AND mgr != NULL;
+
+SELECT *
+FROM emp
+WHERE mgr 
+
+
+SELECT *
+FROM emp
+WHERE job = 'SALESMAN'
+   OR empno BETWEEN 7800 AND 7899
+   OR empno BETWEEN 780 AND 789
+   OR empno = 78;
+   
+연산자 우선순위
++, -, *, /
+*, /
+   
+   
+--14번
+
+SELECT *
+FROM emp
+WHERE job = 'SALESMAN'
+   OR (empno LIKE '78%' and hiredate > TO_DATE('1981/06/01', 'YYYY/MM/DD'));
+   
+정렬
+RDBMS 집합적인 사상을 따른다
+집합에는 순서가 없다 (1, 3, 5) == (3, 5, 1)
+집합에는 중복이 없다 (1, 3, 5, 1) == (3, 5, 1)
+
+SQL 작성순서                                ORACLE에서 실행하는 순서
+1.                      SELECT                      3                    
+2.                      FROM                        1
+3.                      WHERE                       4
+4.                      ORDER BY                    2(별칭으로도 나열 가능하기 때문)
+
+데이터의 순서를 정해서 정렬해주는 'ORDER BY'
+정렬 방법 : ORDER BY 절을 통해 정렬 기준 컬럼을 명시
+           컬럼뒤에 [ASC | DESC]을 기술하여 오름차순, 내림차순을 지정할 수있다.
+1. ORDER BY 컬럼
+2. ORDER BY 별칭
+3. ORDER BY SELECT 절에 나열된 컬럼의 인덱스 번호
+
+SELECT *
+FROM emp
+ORDER BY ename desc, mgr;
+
+별칭으로 ORDER BY
+SELECT empno, ename, sal, sal*12 salary
+FROM emp
+ORDER BY salary;
+
+SELECT 절에 기술된 컬럼순서(인덱스)로 정렬
+SELECT empno, ename, sal, sal*12 salary
+FROM emp
+ORDER BY 4;
+
+DESC dept;
+
+SELECT *
+FROM dept
+ORDER BY dname;
+
+SELECT *
+FROM dept
+ORDER BY LOC DESC;
+
+SELECT *
+FROM emp
+WHERE comm > 0
+ORDER BY comm DESC, empno DESC;
